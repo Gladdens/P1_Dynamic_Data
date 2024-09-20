@@ -1,8 +1,12 @@
 html, body {
   height: 100%;
   width: 100%;
-  font-family: sans-serif;
+  /* font-family: sans-serif; */
   text-align: center;
+  font-family: "Port Lligat Sans", sans-serif;
+  font-weight:400;
+  color: #7B601C;
+  background-image: url('/image/background.png');
 }
 
 .logo {
@@ -26,3 +30,93 @@ footer {
 section{
   padding: 1rem;
 }
+
+img {
+  width: 578px;
+}
+
+h1 {
+  padding-top: 100px;
+  font-family: "Port Lligat Slab", serif;
+}
+
+h2 {
+  padding, margin: 0;
+  font-family: "Port Lligat Slab", serif;
+}
+
+p {
+  padding, margin: 0;
+}
+
+/* container for all articles */
+#container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+/* container for each article */
+div {
+  display: flex;
+  /* justify-content: center; */
+  width: 612px;
+  flex-direction: column;
+  align-items: center;
+  
+  /* margin: 228px 0 50px 0; */
+  /* padding: 10px; */
+  text-align: left;
+  align-items: flex-start;
+}
+
+article {
+  /* color: red; */
+  
+}
+
+.article {
+  margin: 500px 0 50px 0;
+}
+
+.cat-holder {
+  background-color:rgb(255, 255, 255);
+  align-items: center
+}
+
+.cat-holder img {
+  padding: 20px 0;
+}
+
+.info-box {
+  display: flex;
+  height: 178px;
+  background-color:rgb(255, 255, 255);
+  /* padding: 16px; */
+  align-items: center;
+}
+
+.info {
+  width: 578px;
+  /* margin-top: -178px; */
+  padding: 16px;
+  display: block;
+}
+
+.title {
+  padding, margin: 0;
+}
+
+.paper {
+  /* margin-top: -36px; */
+  /* margin-top: 100px; */
+  /* margin-bottom: -178px; */
+  background-color: none;
+}
+
+.paper img {
+  width: 613px;
+}
+
