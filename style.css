@@ -7,6 +7,10 @@ html, body {
   font-weight:400;
   color: #7B601C;
   background-image: url('/image/background.png');
+  /* cursor: url('/image/paw.gif'), auto;  */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .logo {
@@ -32,12 +36,19 @@ section{
 }
 
 img {
-  width: 578px;
+
+}
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+  /* cursor: url('/image/pawclick.png'), auto; */
 }
 
 h1 {
   padding-top: 100px;
   font-family: "Port Lligat Slab", serif;
+  font-size: 60px;
 }
 
 h2 {
@@ -51,11 +62,14 @@ p {
 
 /* container for all articles */
 #container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
+  width: 70%;
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* align-items: center; */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: center;
+  justify-items: center;
 }
 
 /* container for each article */
@@ -81,28 +95,48 @@ article {
   margin: 500px 0 50px 0;
 }
 
+.article-container {
+  margin: 80px 0;
+}
+
 .cat-holder {
   background-color:rgb(255, 255, 255);
-  align-items: center
+  align-items: center;
+  
 }
 
 .cat-holder img {
+  object-fit: cover;
+  width: 578px;
+  max-height: 280px;
   padding: 20px 0;
 }
 
 .info-box {
   display: flex;
-  height: 178px;
-  background-color:rgb(255, 255, 255);
-  /* padding: 16px; */
+  /* height: 178px; */
+  height: 170px;
+  /* background-color:rgb(255, 255, 255); */
+  /* margin: 16px; */
   align-items: center;
 }
 
 .info {
   width: 578px;
   /* margin-top: -178px; */
-  padding: 16px;
+  padding: 0 16px 16px 16px;
   display: block;
+  background-color:rgb(255, 255, 255);
+}
+
+.date, .title {
+  margin-block-start: 0.5em;
+  margin-block-end: 0.5em;
+}
+
+.description {
+  margin-block-start: 0.5em;
+  margin-block-end: 1em;
 }
 
 .title {
@@ -113,10 +147,11 @@ article {
   /* margin-top: -36px; */
   /* margin-top: 100px; */
   /* margin-bottom: -178px; */
-  background-color: none;
+  background-color: transparent;
 }
 
 .paper img {
   width: 613px;
+  
 }
 

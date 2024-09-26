@@ -1,104 +1,111 @@
-/* We start by loading and parsing our JSON data, with fetch.
-Read about fetch here: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch */
-const options = {method: 'GET', headers: {'User-Agent': 'insomnia/10.0.0'}};
+let inputDate;
+let outputDate;
 
-fetch('https://newsapi.org/v2/everything?q=cats%20-trump%20-dogs%20-dog&sortBy=relevancy&searchin=title&pageSize=10&apiKey=e764136da80e4453b9ed5623bee8aee9', options)
+function formatDate(iso) {
+  const date = new Date(iso);
+  
+  // Options to format the date
+  const options = { year: 'numeric', month: 'short', day: 'numeric' };
+  return date.toLocaleDateString('en-US', options);
+}
 
-  .then(response => response.json())
-  .then(data => {
-    console.log(data); // Log the response for debugging
+// Fetching the articles data
+const options = { method: 'GET', headers: { 'User-Agent': 'insomnia/10.0.0' } };
 
-    if (data.articles && data.articles.length > 0) {
-      const container = document.getElementById('container');
+fetch('https://newsapi.org/v2/everything?q=cats%20-trump%20-dogs%20-dog%20-eating&sortBy=relevancy&searchin=title&pageSize=20&apiKey=e764136da80e4453b9ed5623bee8aee9', options)
+.then(response => response.json())
+.then(data => {
+  console.log(data); // Log the response for debugging
 
-      for (const article of data.articles) {
-        // No need to create new divs, reuse existing structure
-        const articleDiv = container.querySelector('.cat-holder'); // Get the existing .cat-holder div
-        
-        // Check if publishedAt exists, update existing element
-        const publishDate = container.querySelector('.date');
-        if (article.publishedAt && publishDate) {
-          publishDate.textContent = `Published: ${article.publishedAt}`;
-        }
+  if (data.articles && data.articles.length > 0) {
+    const container = document.getElementById('container');
 
-        // Update the existing title element
-        const title = container.querySelector('.title');
-        title.textContent = article.title;
+    // Filter articles with valid images
+    const validArticles = data.articles.filter(article => article.urlToImage);
 
-        // Check if description exists, update existing element
-        const description = container.querySelector('.description');
-        if (article.description && description) {
-          description.textContent = article.description;
-        }
+    // Loop through up to 10 valid articles
+    validArticles.slice(0, 10).forEach(article => {
+      // Create an <a> tag for the article link
+      const articleLink = document.createElement('a');
+      articleLink.href = article.url; // Set the URL of the article
+      articleLink.target = '_blank'; // Open in a new tab
 
-        // Check if urlToImage exists, update existing image src
-        const image = container.querySelector('.cat'); // Get the existing .cat image
-        if (article.urlToImage && image) {
-          image.src = article.urlToImage;
-        }
+      // Create a new wrapper div for each article
+      const articleContainer = document.createElement('div');
+      articleContainer.classList.add('article-container'); // Add a class for styling
+
+      // Create cat-holder div
+      const catHolderDiv = document.createElement('div');
+      catHolderDiv.classList.add('cat-holder');
+
+      // Create img element for the cat image
+      const catImage = document.createElement('img');
+      catImage.classList.add('cat');
+      catImage.src = article.urlToImage; // Use the article image
+      catHolderDiv.appendChild(catImage);
+
+      // Create info-box div
+      const infoBoxDiv = document.createElement('div');
+      infoBoxDiv.classList.add('info-box');
+
+      // Create info div
+      const infoDiv = document.createElement('div');
+      infoDiv.classList.add('info');
+
+      // Create and add the date
+      const publishDate = document.createElement('p');
+      publishDate.classList.add('date');
+      if (article.publishedAt) {
+        const formattedDate = formatDate(article.publishedAt);
+        publishDate.textContent = `Published: ${formattedDate}`;
       }
-    } else {
-      console.error('No articles found in the response.');
-    }
-  })
-  .catch(err => console.error('Fetch error:', err));
+      infoDiv.appendChild(publishDate);
 
-// .then(response => response.json())
-//   .then(data => {
-//     console.log(data); // Log the response to ensure it is as expected
+      // Create and add the title
+      const title = document.createElement('h2');
+      title.classList.add('title');
+      title.textContent = article.title;
+      infoDiv.appendChild(title);
 
-//     // if (data.articles && data.articles.length > 0) {
-//     //   // Creating an H1 element and setting its inner HTML to the title of the first article
-//     //   let title = document.createElement('h1');
-//     //   title.innerHTML = data.articles[0].title; // Accessing the first article's title
-//     //   document.body.appendChild(title); // Appending the title to the body of the document
-//     // } else {
-//     //   console.error('No articles found in the response.');
-//     // }
+      // Create and add the description
+      const description = document.createElement('p');
+      description.classList.add('description');
+      description.textContent = article.description || 'No description available';
+      infoDiv.appendChild(description);
 
-//     if (data.articles && data.articles.length > 0) {
-//       const container = document.getElementById('container');
-//       for (const article of data.articles) {
-//         // Create a div for each article
-//         const articleDiv = document.createElement('div');
-//         articleDiv.classList.add('article'); // Add a class for styling
+      // Append info div to info-box
+      infoBoxDiv.appendChild(infoDiv);
 
-//         // Check if publishedAt exists and create a p element for it
-//         if (article.publishedAt) {
-//           const publishedAt = document.createElement('p');
-//           publishedAt.innerHTML = `Published: ${article.publishedAt}`;
-//           articleDiv.appendChild(publishedAt);
-//         }
+      // Create paper div
+      const paperDiv = document.createElement('div');
+      paperDiv.classList.add('paper');
 
-//         // Create an H2 element with the title
-//         const title = document.createElement('h2');
-//         title.innerHTML = article.title;
-//         articleDiv.appendChild(title);
+      // Create img element for the paper image
+const paperImage = document.createElement('img');
 
-//         // Check if description exists and create a p element for it
-//         if (article.description) {
-//           const description = document.createElement('p');
-//           description.innerHTML = article.description;
-//           articleDiv.appendChild(description);
-//         }
+      // Randomize between paper1.png and paper2.png
+      const randomPaperImage = Math.random() < 0.5 ? 'image/paper1.png' : 'image/paper2.png';
+      paperImage.src = randomPaperImage; // Set the randomly chosen image
 
-  
+      // const paperImage = document.createElement('img');
+      // paperImage.src = 'image/paper1.png'; // Use the existing paper image
+      paperDiv.appendChild(paperImage);
 
-//         // Check if urlToImage exists and create an img element for it
-//         if (article.urlToImage) {
-//           const image = document.createElement('img');
-//           image.src = article.urlToImage;
-//           articleDiv.appendChild(image);
-//         }
+      // Append paper div to info-box
+      infoBoxDiv.appendChild(paperDiv);
 
-//         // Append the article div to the body
-//         document.body.appendChild(articleDiv);
-//         container.appendChild(articleDiv);
-//       }
-//     } else {
-//       console.error('No articles found in the response.');
-//     }
-//   })
-//   .catch(err => console.error('Fetch error:', err));
+      // Append cat-holder and info-box to the articleContainer div
+      articleContainer.appendChild(catHolderDiv);
+      articleContainer.appendChild(infoBoxDiv);
 
-  
+      // Append the articleContainer to the articleLink
+      articleLink.appendChild(articleContainer);
+
+      // Append the articleLink to the main container
+      container.appendChild(articleLink);
+    });
+  } else {
+    console.error('No articles found in the response.');
+  }
+})
+.catch(err => console.error('Fetch error:', err));
